@@ -1,4 +1,17 @@
 #!/usr/bin/env python3
+"""
+usage: docs_generator.py [-h] [-p INPUT_PATH] [-o OUTPUT_PATH] [-t TEMPLATES_PATH] [-f FORMATS [FORMATS ...]]
+
+Create query docs
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p INPUT_PATH         Path to read metadata.json
+  -o OUTPUT_PATH        Path to output documentation files
+  -t TEMPLATES_PATH     Path to template files
+  -f FORMATS [FORMATS ...]
+                        Documentation formats to be created, the extension must exists in the template folder
+"""
 from pathlib import Path
 from jinja2 import Template
 import os, argparse, json

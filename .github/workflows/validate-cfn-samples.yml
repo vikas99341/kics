@@ -29,7 +29,7 @@ jobs:
       - name: Validate ALL cloudformation template samples
         if: github.event_name == 'workflow_dispatch'
         run: |
-          python3 -u ".github/validators/validate-syntax.py" \
+          python3 -u ".github/validators/validate_syntax.py" \
             "assets/queries/cloudFormation/**/test/*.yaml" \
             "assets/queries/cloudFormation/**/test/*.json" \
             --linter /home/runner/.local/bin/cfn-lint \
@@ -39,7 +39,7 @@ jobs:
       - name: Validate CHANGED cloudformation template samples
         if: github.event_name != 'workflow_dispatch'
         run: |
-          python3 -u ".github/validators/validate-syntax.py" \
+          python3 -u ".github/validators/validate_syntax.py" \
             "assets/queries/cloudFormation/**/test/*.yaml" \
             "assets/queries/cloudFormation/**/test/*.json" \
             --diff ${HOME}/files.json \

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-usage: validate-syntax.py [-h] -p LINTER_PATH [-e OPTIONS] [-s FILE_LIST] [-t]
+usage: validate_syntax.py [-h] -p LINTER_PATH [-e OPTIONS] [-s FILE_LIST] [-t]
                           [-r] [-d CHANGES_PATH] [-v]
                           FILES [FILES ...]
 
@@ -92,13 +92,13 @@ def changed_sample_files(all_files):
     with open(args.diff, 'r') as fp:
         changes_list = json.load(fp)
     if args.verbose > 1:
-      print('detected git commit changes:')
-      print(changes_list)
+        print('detected git commit changes:')
+        print(changes_list)
 
     changed_samples = [file for file in all_files if file in changes_list]
     if args.verbose > 1:
-      print('changed samples:')
-      print(changed_samples)
+        print('changed samples:')
+        print(changed_samples)
 
     return changed_samples
 
@@ -164,7 +164,7 @@ def main():
         and 'positive_expected_result.json' not in file
     ]
     if args.verbose:
-      print(f'found {len(files)} samples in glob pattern')
+        print(f'found {len(files)} samples in glob pattern')
 
     if args.diff:
         files = changed_sample_files(files)

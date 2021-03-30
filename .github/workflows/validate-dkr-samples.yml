@@ -21,7 +21,7 @@ jobs:
           chmod +x .bin/hadolint
       - name: Validate dockerfiles syntax
         run: |
-          python3 -u .github/validators/validate-syntax.py \
+          python3 -u .github/validators/validate_syntax.py \
             "assets/queries/docker/**/test/*.dockerfile" \
             --linter .bin/hadolint \
             --skip dkr-skip-list \
