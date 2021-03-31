@@ -1,4 +1,4 @@
-name: update-queries-docs
+name: update-benchmark-docs
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   update-docs:
-    name: Update queries documentation
+    name: Update project benchmark docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,18 +21,18 @@ jobs:
       - name: Update docs
         run: |
           pip3 install -r .github/generators/requirements.txt
-          python3 -u .github/generators/docs_generator.py -p ./assets/queries/ \
-            -o ./docs/queries/ -f md -t .github/generators/templates/queries_catalog
+          python3 -u .github/generators/metrics_generator.py
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          title: Update queries documentation - ${{ github.run_id }}
+          title: "[kicsbot] Update project benchmark"
           token: ${{ secrets.KICS_BOT_PAT }}
+          commit-message: "[kicsbot] Update project benchmark"
           delete-branch: true
-          branch: feature/kicsbot-update-queries-docs
+          branch: feature/kicsbot-update-project-benchmark
           body: |
             **Automated changes**
-            Updating queries' documentation.
+            Updating project benchmark documentation.
             Triggered by SHA: _${{ github.sha }}_
           labels: documentation
 

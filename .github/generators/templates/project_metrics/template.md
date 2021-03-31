@@ -25,14 +25,20 @@ the supported IaC technologies (c.f., Terraform, Ansible, Kubernetes, Docker, AW
 ### Global Measures
 
 
-|Measure                        | Value  |
-| :---                          | :---   |
-| **Average Accuracy**          | 98.6%  |
-| **Total Number of Results**   | 34234  |
-| **Average Query Coverage**    | 66.4%  |
-| **Total Scanned IaC Files**   | 13418  |
-| **Average Scan Time (s)**     | 11.2   |
-| **Average Project Size (MB)** | 26.6   |
+| Measure                       | Value |
+|-------------------------------|-------|
+| **Average Accuracy**          | 98.6% |
+| **Total Number of Results**   | 34234 |
+| **Average Query Coverage**    | 66.4% |
+| **Total Scanned IaC Files**   | 13418 |
+| **Average Scan Time (s)**     | 11.2  |
+| **Average Project Size (MB)** | 26.6  |
 
 
+### Platform Metrics
 
+|  Platform   |  Queries  |  Samples  |  JSON  |  YAML  |  TF  |
+|-------------|-----------|-----------|--------|--------|------|
+{% for platform in platforms %}
+| {{ }} | {{ }} | {{ }} | {{ }} | {{ }} | {{ }} |
+{% endfor %}
