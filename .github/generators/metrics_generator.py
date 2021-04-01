@@ -50,6 +50,8 @@ for iac_tool, value in iac_tool_dict.items():
     init_entry(iac_tool, metrics_dict)
     for ext in value['exts']:
         init_entry(iac_tool, metrics_dict)
+        iac_queries = 0
+        iac_samples = 0
         if 'platforms' in value:
             for platform in value['platforms']:
                 plat_path = os.sep.join([path, platform])
@@ -58,28 +60,31 @@ for iac_tool, value in iac_tool_dict.items():
                 init_entry(ext, metrics_dict[iac_tool][platform]['samples'])
                 metrics_dict[iac_tool][platform]['samples'][ext] = get_samples(
                     sample_glob(plat_path, ext))
-                metrics_dict[iac_tool][platform]['samples'][f"{ext}_count"] = len(
+                platform_samples = len(
                     metrics_dict[iac_tool][platform]['samples'][ext])
+                iac_samples += platform_samples
+                metrics_dict[iac_tool][platform]['samples'][f"{ext}_count"] = platform_samples
                 metrics_dict[iac_tool][platform]['queries'] = glob.glob(
-                    query_glob([path, '**']))
-                metrics_dict[iac_tool][platform]['queries_count'] = len(
+                    query_glob([path, platform]))
+                platform_queries = len(
                     metrics_dict[iac_tool][platform]['queries'])
+                iac_queries += platform_queries
+                metrics_dict[iac_tool][platform]['queries_count'] = platform_queries
+                metrics_dict[iac_tool]['queries_count'] = iac_queries
         else:
             init_entry('samples', metrics_dict[iac_tool])
             init_entry(ext, metrics_dict[iac_tool]['samples'])
             metrics_dict[iac_tool]['samples'][ext] = get_samples(
                 sample_glob(path, ext))
-            metrics_dict[iac_tool]['samples'][f"{ext}_count"] = len(
+            ext_samples = len(
                 metrics_dict[iac_tool]['samples'][ext])
+            iac_samples += ext_samples
+            metrics_dict[iac_tool]['samples'][f"{ext}_count"] = ext_samples
             metrics_dict[iac_tool]['queries'] = glob.glob(query_glob([path]))
-            metrics_dict[iac_tool]['queries_count'] = len(
+            ext_queries = len(
                 metrics_dict[iac_tool]['queries'])
+            iac_queries += ext_queries
+            metrics_dict[iac_tool]['queries_count'] = ext_queries
+        metrics_dict[iac_tool]["samples_count"] = iac_samples
 
 print(json.dumps(metrics_dict, indent=2))
-
-# for key, obj in samples_dict.items():
-#     print('--', key)
-#     for subkey, subobj in obj.items():
-#         print('\t---', subkey)
-#         for line in json.dumps(subobj, indent=4).splitlines():
-#             print('\t\t', line)
