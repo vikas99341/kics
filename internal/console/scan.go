@@ -126,7 +126,7 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) {
 			if err != nil {
 				log.Err(err).Msg("Unable to show help message")
 			}
-			os.Exit(1)
+			// os.Exit(1)
 		}
 	}
 }
@@ -363,7 +363,7 @@ func scan() error {
 	log.Info().Msgf(elapsedStrFormat, elapsed)
 
 	if summary.FailedToExecuteQueries > 0 {
-		os.Exit(1)
+		// os.Exit(1)
 	}
 
 	return nil
