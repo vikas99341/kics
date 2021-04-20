@@ -7369,6 +7369,14 @@
 <td><a href="https://swagger.io/specification/#security-requirement-object">Documentation</a><br/></td>
 </tr>
 <tr>
+<td>No Global And Operation Security Defined<br/><sup><sub>96729c6b-7400-4d9e-9807-17f00cdde4d2</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#C00">High</span></td>
+<td>Access Control</td>
+<td>All paths should have security scheme, if it is omitted, global security field should be defined</td>
+<td><a href="https://swagger.io/specification/#security-requirement-object">Documentation</a><br/></td>
+</tr>
+<tr>
 <td>Invalid OAuth2 Authorization URL<br/><sup><sub>52c0d841-60d6-4a81-88dd-c35fef36d315</sub></sup></td>
 <td>OpenAPI</td>
 <td><span style="color:#C60">Medium</span></td>
@@ -7449,6 +7457,22 @@
 <td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
 </tr>
 <tr>
+<td>Responses With Wrong HTTP Status Code<br/><sup><sub>d86655c0-92f6-4ffc-b4d5-5b5775804c27</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#00C">Info</span></td>
+<td>Structure and Semantics</td>
+<td>HTTP Responses status code should be in range of [200-599]</td>
+<td><a href="https://swagger.io/specification/#responses-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Parameter Object With Schema And Content<br/><sup><sub>31dd6fc0-f274-493b-9614-e063086c19fc</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#00C">Info</span></td>
+<td>Structure and Semantics</td>
+<td>A Parameter Object must contain either a 'schema' property, or a 'content' property, but not both since they are mutually exclusive</td>
+<td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
+</tr>
+<tr>
 <td>Paths Object is Empty<br/><sup><sub>815021c8-a50c-46d9-b192-24f71072c400</sub></sup></td>
 <td>OpenAPI</td>
 <td><span style="color:#00C">Info</span></td>
@@ -7462,6 +7486,14 @@
 <td><span style="color:#00C">Info</span></td>
 <td>Structure and Semantics</td>
 <td>A Parameter Object must contain either a 'schema' property, or a 'content' property</td>
+<td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Parameter Object With Incorrect Ref<br/><sup><sub>d40f27e6-15fb-4b56-90f8-fc0ff0291c51</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#00C">Info</span></td>
+<td>Structure and Semantics</td>
+<td>Parameter Object reference must always point to '#components/parameters'</td>
 <td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
 </tr>
 </tbody>
