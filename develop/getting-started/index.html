@@ -247,6 +247,8 @@
 <pre><code class="language-txt">docker pull checkmarx/kics:latest
 docker run -v {​​​​path_to_host_folder_to_scan}​​​​:/path checkmarx/kics:latest scan -p &quot;/path&quot; -o &quot;/path/results.json&quot;
 </code></pre>
+<p>We also provide alpine based docker image with <code>latest-alpine</code>.</p>
+<p>You can see the list of available tags in <a href="https://hub.docker.com/r/checkmarx/kics/tags?page=1&amp;ordering=-name">dockerhub</a></p>
 <p>You can provide your own path to the queries directory with <code>-q</code> CLI option (see CLI Options section below), otherwise the default directory will be used The default <em>./assets/queries</em> is built-in in the image.</p>
 <h4 id="one-liner-install-script">One-liner Install Script</h4>
 <p>Run the following command to download and install kics. It will detect your current OS and download the appropriate binary package, defaults installation to <code>./bin</code> the queries will be placed alongside the binary in <code>./bin/assets/queries</code>:</p>

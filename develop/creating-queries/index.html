@@ -249,7 +249,7 @@ To test and debug there are two ways:</p>
 </ul>
 <h4 id="testing">Testing</h4>
 <p>For a query to be considered complete, it must be compliant with at least one positive and one negative test case. To run the unit tests you can run this command:</p>
-<pre><code class="language-bash">go test -mod=vendor -v -cover ./... -count=1
+<pre><code class="language-bash">make test
 </code></pre>
 <p>Check if the new test was added correctly and if all tests are passing locally. If succeeds, a Pull Request can now be created.</p>
 <h4 id="guidelines">Guidelines</h4>
@@ -262,7 +262,7 @@ To test and debug there are two ways:</p>
 <ul>
 <li><code>queryName</code> describes the name of the vulnerability</li>
 <li><code>severity</code> can be filled with <code>HIGH</code>, <code>MEDIUM</code>, <code>LOW</code> or <code>INFO</code></li>
-<li><code>category</code> pick one of the following:</li>
+<li><code>category</code> pick one of the following:<ul>
 <li>Access Control</li>
 <li>Availability</li>
 <li>Backup</li>
@@ -276,6 +276,8 @@ To test and debug there are two ways:</p>
 <li>Resource Management</li>
 <li>Secret Management</li>
 <li>Supply-Chain</li>
+</ul>
+</li>
 <li><code>descriptionText</code> should explain with detail the vulnerability and if possible provide a way to remediate</li>
 <li><code>descriptionUrl</code> points to the official documentation about the resource being targeted</li>
 <li><code>platform</code> query target platform (e.g. Terraform, Kubernetes, etc.)</li>
