@@ -7377,6 +7377,14 @@
 <td><a href="https://swagger.io/specification/#security-requirement-object">Documentation</a><br/></td>
 </tr>
 <tr>
+<td>Implicit Flow in OAuth2<br/><sup><sub>4a1f3d75-ab73-41b2-83e7-06a93dc3a75a</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#C60">Medium</span></td>
+<td>Access Control</td>
+<td>There is a 'securityScheme' using implicit flow on OAuth2, which is deprecated</td>
+<td><a href="https://swagger.io/specification/#oauth-flow-object">Documentation</a><br/></td>
+</tr>
+<tr>
 <td>Invalid OAuth2 Authorization URL<br/><sup><sub>52c0d841-60d6-4a81-88dd-c35fef36d315</sub></sup></td>
 <td>OpenAPI</td>
 <td><span style="color:#C60">Medium</span></td>
@@ -7407,6 +7415,38 @@
 <td>Encryption</td>
 <td>Global server object URL should use 'https' protocol instead of 'http'</td>
 <td><a href="https://swagger.io/specification/#server-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Success Response Code Defined for Patch Operation<br/><sup><sub>1908a8ee-927d-4166-8f18-241152170cc1</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#C60">Medium</span></td>
+<td>Networking and Firewall</td>
+<td>Patch should define at least one success response (200, 201, 202 or 204)</td>
+<td><a href="https://swagger.io/specification/#operation-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Success Response Code Defined for Put Operation<br/><sup><sub>60b5f56b-66ff-4e1c-9b62-5753e16825bc</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#C60">Medium</span></td>
+<td>Networking and Firewall</td>
+<td>Put should define at least one success response (200, 201, 202 or 204)</td>
+<td><a href="https://swagger.io/specification/#operation-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Success Response Code Defined for Delete Operation<br/><sup><sub>3b497874-ae59-46dd-8d72-1868a3b8f150</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#C60">Medium</span></td>
+<td>Networking and Firewall</td>
+<td>Delete should define at least one success response (200, 201, 202 or 204)</td>
+<td><a href="https://swagger.io/specification/#operation-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Success Response Code Defined for Post Operation<br/><sup><sub>f368dd2d-9344-4146-a05b-7c6faa1269ad</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#C60">Medium</span></td>
+<td>Networking and Firewall</td>
+<td>Post should define at least one success response (200, 201, 202 or 204)</td>
+<td><a href="https://swagger.io/specification/#operation-object">Documentation</a><br/></td>
 </tr>
 <tr>
 <td>Undefined Scope 'securityScheme' On Global 'security' Field<br/><sup><sub>23a9e2d9-8738-4556-a71c-2802b6ffa022</sub></sup></td>
@@ -7489,6 +7529,22 @@
 <td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
 </tr>
 <tr>
+<td>Server URL Not Absolute<br/><sup><sub>a0bf7382-5d5a-4224-924c-3db8466026c9</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#00C">Info</span></td>
+<td>Structure and Semantics</td>
+<td>The Server URL should be an absolute URL</td>
+<td><a href="https://swagger.io/specification/#server-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Invalid Content Type For Multiple Files Upload<br/><sup><sub>26f06397-36d8-4ce7-b993-17711261d777</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#00C">Info</span></td>
+<td>Structure and Semantics</td>
+<td>Content Type should be set to 'multipart/form-data' in case of uploading an arbitrary number of files (array)</td>
+<td><a href="https://swagger.io/docs/specification/describing-request-body/file-upload/">Documentation</a><br/></td>
+</tr>
+<tr>
 <td>Request Body With Incorrect Ref<br/><sup><sub>0f6cd0ab-c366-4595-84fc-fbd8b9901e4d</sub></sup></td>
 <td>OpenAPI</td>
 <td><span style="color:#00C">Info</span></td>
@@ -7521,6 +7577,14 @@
 <td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
 </tr>
 <tr>
+<td>Parameter Objects Headers With Duplicated Name<br/><sup><sub>05505192-ba2c-4a81-9b25-dcdbcc973746</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#00C">Info</span></td>
+<td>Structure and Semantics</td>
+<td>Parameter Objects should not have duplicate names for 'header' location, since HTTP headers are not case sensitive.</td>
+<td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
+</tr>
+<tr>
 <td>Paths Object is Empty<br/><sup><sub>815021c8-a50c-46d9-b192-24f71072c400</sub></sup></td>
 <td>OpenAPI</td>
 <td><span style="color:#00C">Info</span></td>
@@ -7543,6 +7607,14 @@
 <td>Structure and Semantics</td>
 <td>Parameter Object reference must always point to '#components/parameters'</td>
 <td><a href="https://swagger.io/specification/#parameter-object">Documentation</a><br/></td>
+</tr>
+<tr>
+<td>Link Object OperationId Does Not Target Operation Object<br/><sup><sub>c5bb7461-aa57-470b-a714-3bc3d74f4669</sub></sup></td>
+<td>OpenAPI</td>
+<td><span style="color:#00C">Info</span></td>
+<td>Structure and Semantics</td>
+<td>Link object 'OperationId' should target an existing operation object in the OpenAPI definition</td>
+<td><a href="https://swagger.io/specification/#link-object">Documentation</a><br/></td>
 </tr>
 </tbody>
 </table></div>
