@@ -59,7 +59,7 @@
 				
 				<option value="file1">github.com/Checkmarx/kics/internal/console/helpers/exit_handler.go (100.0%)</option>
 				
-				<option value="file2">github.com/Checkmarx/kics/internal/console/helpers/helpers.go (82.8%)</option>
+				<option value="file2">github.com/Checkmarx/kics/internal/console/helpers/helpers.go (83.1%)</option>
 				
 				<option value="file3">github.com/Checkmarx/kics/internal/console/kics.go (87.2%)</option>
 				
@@ -67,7 +67,7 @@
 				
 				<option value="file5">github.com/Checkmarx/kics/internal/console/printer/printer.go (58.7%)</option>
 				
-				<option value="file6">github.com/Checkmarx/kics/internal/console/scan.go (81.2%)</option>
+				<option value="file6">github.com/Checkmarx/kics/internal/console/scan.go (81.0%)</option>
 				
 				<option value="file7">github.com/Checkmarx/kics/internal/console/version.go (100.0%)</option>
 				
@@ -93,7 +93,7 @@
 				
 				<option value="file18">github.com/Checkmarx/kics/pkg/detector/helper.go (96.2%)</option>
 				
-				<option value="file19">github.com/Checkmarx/kics/pkg/engine/inspector.go (74.1%)</option>
+				<option value="file19">github.com/Checkmarx/kics/pkg/engine/inspector.go (74.6%)</option>
 				
 				<option value="file20">github.com/Checkmarx/kics/pkg/engine/provider/filesystem.go (76.2%)</option>
 				
@@ -105,7 +105,7 @@
 				
 				<option value="file24">github.com/Checkmarx/kics/pkg/kics/resolver_sink.go (73.9%)</option>
 				
-				<option value="file25">github.com/Checkmarx/kics/pkg/kics/service.go (86.7%)</option>
+				<option value="file25">github.com/Checkmarx/kics/pkg/kics/service.go (88.2%)</option>
 				
 				<option value="file26">github.com/Checkmarx/kics/pkg/kics/sink.go (68.4%)</option>
 				
@@ -281,6 +281,7 @@ import (
         "sync"
 
         "github.com/BurntSushi/toml"
+        "github.com/Checkmarx/kics/internal/metrics"
         "github.com/Checkmarx/kics/pkg/model"
         "github.com/Checkmarx/kics/pkg/report"
         "github.com/gookit/color"
@@ -513,6 +514,7 @@ func FileAnalyzer(path string) (string, error) <span class="cov4" title="11">{
 // GenerateReport execute each report function to generate report
 func GenerateReport(path, filename string, body interface{}, formats []string) error <span class="cov2" title="2">{
         log.Debug().Msgf("helpers.GenerateReport()")
+        metrics.Metric.Start("generate_report")
         var err error = nil
         for _, format := range formats </span><span class="cov2" title="2">{
                 if err = reportGenerators[format](path, filename, body); err != nil </span><span class="cov1" title="1">{
@@ -520,7 +522,8 @@ func GenerateReport(path, filename string, body interface{}, formats []string) e
                         break</span>
                 }
         }
-        <span class="cov2" title="2">return err</span>
+        <span class="cov2" title="2">metrics.Metric.Stop()
+        return err</span>
 }
 
 // GetExecutableDirectory - returns the path to the directory containing KICS executable
@@ -638,6 +641,7 @@ var (
         logPath   string
         noColor   bool
         silent    bool
+        profiling string
         verbose   bool
 
         warning []string
@@ -697,9 +701,13 @@ func initialize(rootCmd *cobra.Command) error <span class="cov10" title="11">{
                 "",
                 false,
                 "display only log messages to CLI output (mutually exclusive with silent)")
+        rootCmd.PersistentFlags().StringVarP(&amp;profiling,
+                "profiling",
+                "",
+                "",
+                "enables performance profiler that prints resource consumption metrics in the logs during the execution (CPU, MEM)")
 
-        err := rootCmd.PersistentFlags().MarkDeprecated(printer.LogFileFlag, "please use --log-path instead")
-        if err != nil </span><span class="cov0" title="0">{
+        if err := rootCmd.PersistentFlags().MarkDeprecated(printer.LogFileFlag, "please use --log-path instead"); err != nil </span><span class="cov0" title="0">{
                 return err
         }</span>
 
@@ -740,7 +748,7 @@ func Execute() error <span class="cov10" title="11">{
         }</span>
         <span class="cov10" title="11">defer sentry.Flush(timeMult * time.Second)
 
-        if err := initialize(rootCmd); err != nil </span><span class="cov0" title="0">{
+        if err = initialize(rootCmd); err != nil </span><span class="cov0" title="0">{
                 sentry.CaptureException(err)
                 log.Err(err).Msg("Failed to initialize CLI")
                 return err
@@ -1058,6 +1066,7 @@ import (
         consoleHelpers "github.com/Checkmarx/kics/internal/console/helpers"
         internalPrinter "github.com/Checkmarx/kics/internal/console/printer"
         "github.com/Checkmarx/kics/internal/constants"
+        "github.com/Checkmarx/kics/internal/metrics"
         "github.com/Checkmarx/kics/internal/storage"
         "github.com/Checkmarx/kics/internal/tracker"
         "github.com/Checkmarx/kics/pkg/engine"
@@ -1143,6 +1152,10 @@ func NewScanCmd() *cobra.Command <span class="cov4" title="11">{
                         if err != nil </span><span class="cov0" title="0">{
                                 return errors.New("initialization error - " + err.Error())
                         }</span>
+                        <span class="cov4" title="7">err = metrics.InitializeMetrics(cmd.InheritedFlags().Lookup("profiling"))
+                        if err != nil </span><span class="cov0" title="0">{
+                                return errors.New("initialization error - " + err.Error())
+                        }</span>
                         <span class="cov4" title="7">return nil</span>
                 },
                 RunE: func(cmd *cobra.Command, args []string) error <span class="cov4" title="7">{
@@ -1211,7 +1224,7 @@ func initializeConfig(cmd *cobra.Command) error <span class="cov4" title="8">{
 func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" title="10">{
         log.Debug().Msg("console.bindFlags()")
         settingsMap := v.AllSettings()
-        cmd.Flags().VisitAll(func(f *pflag.Flag) </span><span class="cov10" title="250">{
+        cmd.Flags().VisitAll(func(f *pflag.Flag) </span><span class="cov10" title="260">{
                 settingsMap[f.Name] = true
                 if strings.Contains(f.Name, "-") </span><span class="cov9" title="180">{
                         envVarSuffix := strings.ToUpper(strings.ReplaceAll(f.Name, "-", "_"))
@@ -1220,13 +1233,13 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                                 log.Err(err).Msg("Failed to bind Viper flags")
                         }</span>
                 }
-                <span class="cov10" title="250">if !f.Changed &amp;&amp; v.IsSet(f.Name) </span><span class="cov3" title="6">{
+                <span class="cov10" title="260">if !f.Changed &amp;&amp; v.IsSet(f.Name) </span><span class="cov3" title="6">{
                         val := v.Get(f.Name)
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="232">{
-                if val == true </span><span class="cov9" title="231">{
+        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="258">{
+                if val == true </span><span class="cov9" title="257">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
@@ -3229,6 +3242,7 @@ import (
         "time"
 
         consoleHelpers "github.com/Checkmarx/kics/internal/console/helpers"
+        "github.com/Checkmarx/kics/internal/metrics"
         "github.com/Checkmarx/kics/pkg/detector"
         "github.com/Checkmarx/kics/pkg/detector/docker"
         "github.com/Checkmarx/kics/pkg/detector/helm"
@@ -3326,6 +3340,7 @@ func NewInspector(
         excludeResults map[string]bool) (*Inspector, error) <span class="cov1" title="1">{
         log.Debug().Msg("engine.NewInspector()")
 
+        metrics.Metric.Start("get_queries")
         queries, err := queriesSource.GetQueries(excludeQueries)
         if err != nil </span><span class="cov0" title="0">{
                 return nil, errors.Wrap(err, "failed to get queries")
@@ -3378,6 +3393,8 @@ func NewInspector(
         <span class="cov1" title="1">failedQueries := make(map[string]error)
 
         queriesNumber := sumAllAggregatedQueries(opaQueries)
+
+        metrics.Metric.Stop()
 
         log.Info().
                 Msgf("Inspector initialized, number of queries=%d", queriesNumber)
@@ -3841,13 +3858,13 @@ var (
 )
 
 // NewFilesystemSource initializes a NewFilesystemSource with source to queries and types of queries to load
-func NewFilesystemSource(source string, types []string) *FilesystemSource <span class="cov7" title="9">{
+func NewFilesystemSource(source string, types []string) *FilesystemSource <span class="cov6" title="9">{
         log.Debug().Msg("source.NewFilesystemSource()")
 
         if len(types) == 0 </span><span class="cov0" title="0">{
                 types = []string{""}
         }</span>
-        <span class="cov7" title="9">return &amp;FilesystemSource{
+        <span class="cov6" title="9">return &amp;FilesystemSource{
                 Source: filepath.FromSlash(source),
                 Types:  types,
         }</span>
@@ -3876,7 +3893,7 @@ func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov
 
         <span class="cov6" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
 
-        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="27">{
+        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="30">{
                 if strings.Contains(strings.ToUpper(platform), strings.ToUpper(supPlatform)) </span><span class="cov5" title="5">{
                         libraryFilePath = filepath.FromSlash(libraryPath + "/" + supPlatform + "/" + LibraryFileName)
                         break</span>
@@ -3999,7 +4016,7 @@ func ReadQuery(queryDir string) (model.QueryMetadata, error) <span class="cov1" 
 }
 
 // ReadMetadata read query's metadata file inside the query directory
-func ReadMetadata(queryDir string) map[string]interface{} <span class="cov4" title="3">{
+func ReadMetadata(queryDir string) map[string]interface{} <span class="cov3" title="3">{
         f, err := os.Open(filepath.Clean(path.Join(queryDir, MetadataFileName)))
         if err != nil </span><span class="cov1" title="1">{
                 sentry.CaptureException(err)
@@ -4045,7 +4062,7 @@ func getPlatform(queryPath string) string <span class="cov6" title="8">{
                 return "dockerfile"
         }</span> else<span class="cov4" title="4"> if strings.Contains(queryPath, "k8s") </span><span class="cov1" title="1">{
                 return "k8s"
-        }</span> else<span class="cov4" title="3"> if strings.Contains(queryPath, "terraform") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov3" title="3"> if strings.Contains(queryPath, "terraform") </span><span class="cov1" title="1">{
                 return "terraform"
         }</span> else<span class="cov2" title="2"> if strings.Contains(queryPath, "openAPI") </span><span class="cov1" title="1">{
                 return "openAPI"
@@ -4333,6 +4350,7 @@ import (
         "context"
         "io"
 
+        "github.com/Checkmarx/kics/internal/metrics"
         "github.com/Checkmarx/kics/pkg/engine"
         "github.com/Checkmarx/kics/pkg/engine/provider"
         "github.com/Checkmarx/kics/pkg/model"
@@ -4378,6 +4396,7 @@ type Service struct {
 // StartScan executes scan over the context, using the scanID as reference
 func (s *Service) StartScan(ctx context.Context, scanID string, hideProgress bool) error <span class="cov1" title="1">{
         log.Debug().Msg("service.StartScan()")
+        metrics.Metric.Start("get_sources")
         if err := s.SourceProvider.GetSources(
                 ctx,
                 s.Parser.SupportedExtensions(),
@@ -4390,14 +4409,15 @@ func (s *Service) StartScan(ctx context.Context, scanID string, hideProgress boo
         ); err != nil <span class="cov0" title="0">{
                 return errors.Wrap(err, "failed to read sources")
         }</span>
-
-        <span class="cov1" title="1">vulnerabilities, err := s.Inspector.Inspect(ctx, scanID, s.files, hideProgress, s.SourceProvider.GetBasePath())
+        <span class="cov1" title="1">metrics.Metric.Stop()
+        metrics.Metric.Start("inspect")
+        vulnerabilities, err := s.Inspector.Inspect(ctx, scanID, s.files, hideProgress, s.SourceProvider.GetBasePath())
         if err != nil </span><span class="cov0" title="0">{
                 return errors.Wrap(err, "failed to inspect files")
         }</span>
 
         <span class="cov1" title="1">err = s.Storage.SaveVulnerabilities(ctx, vulnerabilities)
-
+        metrics.Metric.Stop()
         return errors.Wrap(err, "failed to save vulnerabilities")</span>
 }
 
