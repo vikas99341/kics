@@ -61,7 +61,7 @@
 				
 				<option value="file2">github.com/Checkmarx/kics/internal/console/helpers/helpers.go (82.8%)</option>
 				
-				<option value="file3">github.com/Checkmarx/kics/internal/console/kics.go (87.0%)</option>
+				<option value="file3">github.com/Checkmarx/kics/internal/console/kics.go (87.2%)</option>
 				
 				<option value="file4">github.com/Checkmarx/kics/internal/console/list_platforms.go (100.0%)</option>
 				
@@ -611,6 +611,7 @@ import (
         "context"
         "fmt"
         "os"
+        "strings"
         "time"
 
         "github.com/Checkmarx/kics/internal/console/printer"
@@ -747,9 +748,14 @@ func Execute() error <span class="cov10" title="11">{
 
         <span class="cov10" title="11">if err := rootCmd.ExecuteContext(ctx); err != nil </span><span class="cov3" title="2">{
                 sentry.CaptureException(err)
-                log.Err(err).Msg("Failed to run application")
-                return err
-        }</span>
+                if !(strings.HasPrefix(err.Error(), "unknown shorthand flag") ||
+                        strings.HasPrefix(err.Error(), "unknown flag") ||
+                        strings.HasPrefix(err.Error(), "unknown command") ||
+                        strings.HasPrefix(err.Error(), "initialization error -")) </span><span class="cov1" title="1">{
+                        log.Err(err).Msg("Failed to run application")
+                }</span>
+                <span class="cov3" title="2">return err</span>
+        }
 
         <span class="cov9" title="9">return nil</span>
 }
@@ -1131,11 +1137,11 @@ func NewScanCmd() *cobra.Command <span class="cov4" title="11">{
                 PersistentPreRunE: func(cmd *cobra.Command, args []string) error </span><span class="cov4" title="8">{
                         err := initializeConfig(cmd)
                         if err != nil </span><span class="cov1" title="1">{
-                                return err
+                                return errors.New("initialization error - " + err.Error())
                         }</span>
                         <span class="cov4" title="7">err = internalPrinter.SetupPrinter(cmd.InheritedFlags())
                         if err != nil </span><span class="cov0" title="0">{
-                                return err
+                                return errors.New("initialization error - " + err.Error())
                         }</span>
                         <span class="cov4" title="7">return nil</span>
                 },
@@ -1219,8 +1225,8 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="244">{
-                if val == true </span><span class="cov9" title="243">{
+        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="232">{
+                if val == true </span><span class="cov9" title="231">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
