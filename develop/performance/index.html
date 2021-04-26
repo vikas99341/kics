@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://www.kics.io/develop/benchmark/">
+        <link rel="canonical" href="http://www.kics.io/develop/performance/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Benchmark - KICS</title>
+        <title>Performance - KICS</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -176,7 +176,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Benchmark</a>
+    <a href="./" class="dropdown-item active">Performance</a>
 </li>
                                 </ul>
                             </li>
@@ -205,7 +205,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/Checkmarx/kics/edit/master/docs/benchmark.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/Checkmarx/kics/edit/master/docs/performance.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -225,7 +225,12 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="2"><a href="#kics_benchmark" class="nav-link">KICS Benchmark</a>
+            <li class="nav-item" data-level="2"><a href="#kics_accuracy_benchmark" class="nav-link">KICS Accuracy Benchmark</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#kics_profiling" class="nav-link">KICS Profiling</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -234,8 +239,8 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h2 id="kics_benchmark">KICS Benchmark<a class="headerlink" href="#kics_benchmark" title="Permanent link">&para;</a></h2>
-<p>The values below were obtained after scanning 150 open source projects with KICS (v1.2.0) covering
+<h2 id="kics_accuracy_benchmark">KICS Accuracy Benchmark<a class="headerlink" href="#kics_accuracy_benchmark" title="Permanent link">&para;</a></h2>
+<p>The values below were obtained after scanning 150 open source projects with KICS (1.2.x) covering
 the supported IaC technologies (c.f., Terraform, Ansible, Kubernetes, Docker, AWS Cloudformation).</p>
 <table>
 <thead>
@@ -336,7 +341,55 @@ the supported IaC technologies (c.f., Terraform, Ansible, Kubernetes, Docker, AW
 <td align="left">26.6</td>
 </tr>
 </tbody>
-</table></div>
+</table>
+<hr />
+<h2 id="kics_profiling">KICS Profiling<a class="headerlink" href="#kics_profiling" title="Permanent link">&para;</a></h2>
+<p>Running Kics with <code>--profiling</code> flag will log the CPU/MEM metrics used for:</p>
+<ul>
+<li>Getting Queries</li>
+<li>Parsing Files</li>
+<li>Scanning Vulnerabilities</li>
+<li>Generating Reports</li>
+</ul>
+<p>Keep in mind that profiling will periodically stop KICS to retrieve the wanted metrics, meaning KICS execution time will increase substantially.</p>
+<hr />
+<h3 id="cpu_profiling">CPU Profiling<a class="headerlink" href="#cpu_profiling" title="Permanent link">&para;</a></h3>
+<p>Flag: <code>--profiling CPU</code></p>
+<pre><code class="language-text">9:43AM INF Scanning with Keeping Infrastructure as Code Secure dev
+9:43AM INF Total CPU usage for get_queries: 6.56s &lt;-
+9:43AM INF Inspector initialized, number of queries=1385
+9:43AM INF Total CPU usage for get_sources: 200.00ms &lt;-
+9:43AM INF Total CPU usage for inspect: 15.43s &lt;-
+9:43AM INF Results saved to file results/results.json fileName=results.json
+9:43AM INF Results saved to file results/results.sarif fileName=results.sarif
+9:43AM INF Results saved to file results/results.html fileName=results.html
+9:43AM INF Total CPU usage for generate_report: 290.00ms &lt;-
+9:43AM INF Files scanned: 221
+9:43AM INF Parsed files: 221
+9:43AM INF Queries loaded: 1385
+9:43AM INF Queries failed to execute: 0
+9:43AM INF Inspector stopped
+9:43AM INF Scan duration: 21.1476197s
+</code></pre>
+<hr />
+<h3 id="mem_profiling">MEM Profiling<a class="headerlink" href="#mem_profiling" title="Permanent link">&para;</a></h3>
+<p>Flag: <code>--profiling MEM</code></p>
+<pre><code class="language-text">9:43AM INF Scanning with Keeping Infrastructure as Code Secure dev
+9:43AM INF Total MEM usage for get_queries: 237.96MB &lt;-
+9:43AM INF Inspector initialized, number of queries=1385
+9:43AM INF Total MEM usage for get_sources: 280.53MB &lt;-
+9:43AM INF Total MEM usage for inspect: 335.44MB &lt;-
+9:43AM INF Results saved to file results/results.json fileName=results.json
+9:43AM INF Results saved to file results/results.sarif fileName=results.sarif
+9:43AM INF Results saved to file results/results.html fileName=results.html
+9:43AM INF Total MEM usage for generate_report: 333.38MB &lt;-
+9:43AM INF Files scanned: 221
+9:43AM INF Parsed files: 221
+9:43AM INF Queries loaded: 1385
+9:43AM INF Queries failed to execute: 0
+9:43AM INF Inspector stopped
+9:43AM INF Scan duration: 21.1476197s
+</code></pre></div>
             </div>
         </div>
 
