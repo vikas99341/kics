@@ -57,7 +57,7 @@
 				
 				<option value="file0">github.com/Checkmarx/kics/internal/console/generate_id.go (80.0%)</option>
 				
-				<option value="file1">github.com/Checkmarx/kics/internal/console/helpers/helpers.go (82.7%)</option>
+				<option value="file1">github.com/Checkmarx/kics/internal/console/helpers/helpers.go (82.8%)</option>
 				
 				<option value="file2">github.com/Checkmarx/kics/internal/console/kics.go (87.0%)</option>
 				
@@ -65,7 +65,7 @@
 				
 				<option value="file4">github.com/Checkmarx/kics/internal/console/printer/printer.go (58.7%)</option>
 				
-				<option value="file5">github.com/Checkmarx/kics/internal/console/scan.go (81.7%)</option>
+				<option value="file5">github.com/Checkmarx/kics/internal/console/scan.go (81.3%)</option>
 				
 				<option value="file6">github.com/Checkmarx/kics/internal/console/version.go (100.0%)</option>
 				
@@ -478,18 +478,23 @@ func GetDefaultQueryPath(queriesPath string) (string, error) <span class="cov2" 
         return queriesDirectory, nil</span>
 }
 
+// ListReportFormats return a slice with all supported report formats
+func ListReportFormats() []string <span class="cov2" title="2">{
+        supportedFormats := make([]string, 0, len(reportGenerators))
+        for reportFormats := range reportGenerators </span><span class="cov3" title="6">{
+                supportedFormats = append(supportedFormats, reportFormats)
+        }</span>
+        <span class="cov2" title="2">return supportedFormats</span>
+}
+
 // ValidateReportFormats returns an error if output format is not supported
 func ValidateReportFormats(formats []string) error <span class="cov2" title="2">{
         log.Debug().Msg("helpers.ValidateReportFormats()")
 
-        validFormats := make([]string, 0, len(reportGenerators))
-        for reportFormats := range reportGenerators </span><span class="cov3" title="6">{
-                validFormats = append(validFormats, reportFormats)
-        }</span>
-        <span class="cov2" title="2">for _, format := range formats </span><span class="cov4" title="7">{
+        for _, format := range formats </span><span class="cov4" title="7">{
                 if _, ok := reportGenerators[format]; !ok </span><span class="cov1" title="1">{
                         return fmt.Errorf(
-                                fmt.Sprintf("Report format not supported: %s\nSupportted formats:\n  %s\n", format, strings.Join(validFormats, "\n")),
+                                fmt.Sprintf("Report format not supported: %s\nSupportted formats:\n  %s\n", format, strings.Join(ListReportFormats(), "\n")),
                         )
                 }</span>
         }
@@ -1126,8 +1131,8 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="217">{
-                if val == true </span><span class="cov9" title="216">{
+        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="208">{
+                if val == true </span><span class="cov9" title="207">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
@@ -1459,6 +1464,9 @@ func printOutput(outputPath, filename string, body interface{}, formats []string
                         outputPath = filepath.Dir(outputPath)
                 }</span>
         }
+        <span class="cov2" title="2">if len(formats) == 0 </span><span class="cov0" title="0">{
+                formats = consoleHelpers.ListReportFormats()
+        }</span>
 
         <span class="cov2" title="2">log.Debug().Msgf("Output formats provided [%v]", strings.Join(formats, ","))
 
@@ -3708,13 +3716,13 @@ var (
 )
 
 // NewFilesystemSource initializes a NewFilesystemSource with source to queries and types of queries to load
-func NewFilesystemSource(source string, types []string) *FilesystemSource <span class="cov7" title="9">{
+func NewFilesystemSource(source string, types []string) *FilesystemSource <span class="cov6" title="9">{
         log.Debug().Msg("source.NewFilesystemSource()")
 
         if len(types) == 0 </span><span class="cov0" title="0">{
                 types = []string{""}
         }</span>
-        <span class="cov7" title="9">return &amp;FilesystemSource{
+        <span class="cov6" title="9">return &amp;FilesystemSource{
                 Source: filepath.FromSlash(source),
                 Types:  types,
         }</span>
@@ -3724,7 +3732,7 @@ func NewFilesystemSource(source string, types []string) *FilesystemSource <span 
 func ListSupportedPlatforms() []string <span class="cov1" title="1">{
         keys := make([]string, len(supportedPlatforms))
         i := 0
-        for k := range supportedPlatforms </span><span class="cov6" title="6">{
+        for k := range supportedPlatforms </span><span class="cov5" title="6">{
                 keys[i] = k
                 i++
         }</span>
@@ -3743,7 +3751,7 @@ func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov
 
         <span class="cov6" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
 
-        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="25">{
+        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="33">{
                 if strings.Contains(strings.ToUpper(platform), strings.ToUpper(supPlatform)) </span><span class="cov5" title="5">{
                         libraryFilePath = filepath.FromSlash(libraryPath + "/" + supPlatform + "/" + LibraryFileName)
                         break</span>
@@ -3802,7 +3810,7 @@ func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.Qu
                                 return err
                         }</span>
 
-                        <span class="cov6" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov6" title="6">{
+                        <span class="cov6" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov5" title="6">{
                                 return nil
                         }</span>
 
@@ -3866,7 +3874,7 @@ func ReadQuery(queryDir string) (model.QueryMetadata, error) <span class="cov1" 
 }
 
 // ReadMetadata read query's metadata file inside the query directory
-func ReadMetadata(queryDir string) map[string]interface{} <span class="cov4" title="3">{
+func ReadMetadata(queryDir string) map[string]interface{} <span class="cov3" title="3">{
         f, err := os.Open(filepath.Clean(path.Join(queryDir, MetadataFileName)))
         if err != nil </span><span class="cov1" title="1">{
                 sentry.CaptureException(err)
@@ -3906,13 +3914,13 @@ func getPlatform(queryPath string) string <span class="cov6" title="8">{
                 return "common"
         }</span> else<span class="cov6" title="7"> if strings.Contains(queryPath, "ansible") </span><span class="cov1" title="1">{
                 return "ansible"
-        }</span> else<span class="cov6" title="6"> if strings.Contains(queryPath, "cloudFormation") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov5" title="6"> if strings.Contains(queryPath, "cloudFormation") </span><span class="cov1" title="1">{
                 return "cloudFormation"
         }</span> else<span class="cov5" title="5"> if strings.Contains(queryPath, "dockerfile") </span><span class="cov1" title="1">{
                 return "dockerfile"
         }</span> else<span class="cov4" title="4"> if strings.Contains(queryPath, "k8s") </span><span class="cov1" title="1">{
                 return "k8s"
-        }</span> else<span class="cov4" title="3"> if strings.Contains(queryPath, "terraform") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov3" title="3"> if strings.Contains(queryPath, "terraform") </span><span class="cov1" title="1">{
                 return "terraform"
         }</span> else<span class="cov2" title="2"> if strings.Contains(queryPath, "openAPI") </span><span class="cov1" title="1">{
                 return "openAPI"
