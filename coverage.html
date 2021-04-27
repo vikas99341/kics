@@ -1238,8 +1238,8 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="257">{
-                if val == true </span><span class="cov9" title="256">{
+        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="254">{
+                if val == true </span><span class="cov9" title="253">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
@@ -3153,7 +3153,7 @@ func createVulnLines(startPos int, lines []string) []model.CodeLine <span class=
 func SelectLineWithMinimumDistance(distances map[int]int, startingFrom int) int <span class="cov5" title="7">{
         minDistance, lineOfMinDistance := constants.MaxInteger, startingFrom
         for line, distance := range distances </span><span class="cov6" title="10">{
-                if distance &lt; minDistance || distance == minDistance &amp;&amp; line &lt; lineOfMinDistance </span><span class="cov5" title="8">{
+                if distance &lt; minDistance || distance == minDistance &amp;&amp; line &lt; lineOfMinDistance </span><span class="cov5" title="9">{
                         minDistance = distance
                         lineOfMinDistance = line
                 }</span>
@@ -3691,12 +3691,12 @@ func (s *FileSystemSourceProvider) GetSources(ctx context.Context,
                 <span class="cov1" title="1">return sink(ctx, s.path, c)</span>
         }
 
-        <span class="cov2" title="3">err = filepath.Walk(s.path, func(path string, info os.FileInfo, err error) error </span><span class="cov9" title="14937">{
+        <span class="cov2" title="3">err = filepath.Walk(s.path, func(path string, info os.FileInfo, err error) error </span><span class="cov9" title="14963">{
                 if err != nil </span><span class="cov0" title="0">{
                         return err
                 }</span>
 
-                <span class="cov9" title="14937">if shouldSkip, skipFolder := s.checkConditions(info, extensions, path, resolved); shouldSkip </span><span class="cov9" title="14706">{
+                <span class="cov9" title="14963">if shouldSkip, skipFolder := s.checkConditions(info, extensions, path, resolved); shouldSkip </span><span class="cov9" title="14732">{
                         return skipFolder
                 }</span>
 
@@ -3744,24 +3744,24 @@ func closeFile(file *os.File, info os.FileInfo) <span class="cov6" title="230">{
 }
 
 func (s *FileSystemSourceProvider) checkConditions(info os.FileInfo, extensions model.Extensions,
-        path string, resolved bool) (bool, error) <span class="cov10" title="14940">{
-        if info.IsDir() </span><span class="cov8" title="3736">{
+        path string, resolved bool) (bool, error) <span class="cov10" title="14966">{
+        if info.IsDir() </span><span class="cov8" title="3740">{
                 if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov1" title="1">{
                         log.Info().Msgf("Directory ignored: %s", path)
                         return true, filepath.SkipDir
                 }</span>
-                <span class="cov8" title="3735">_, err := os.Stat(filepath.Join(path, "Chart.yaml"))
-                if err != nil || resolved </span><span class="cov8" title="3733">{
+                <span class="cov8" title="3739">_, err := os.Stat(filepath.Join(path, "Chart.yaml"))
+                if err != nil || resolved </span><span class="cov8" title="3737">{
                         return true, nil
                 }</span>
                 <span class="cov1" title="2">return false, nil</span>
         }
 
-        <span class="cov9" title="11204">if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov0" title="0">{
+        <span class="cov9" title="11226">if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov0" title="0">{
                 log.Info().Msgf("File ignored: %s", path)
                 return true, nil
         }</span>
-        <span class="cov9" title="11204">if !extensions.Include(filepath.Ext(path)) &amp;&amp; !extensions.Include(filepath.Base(path)) </span><span class="cov9" title="10974">{
+        <span class="cov9" title="11226">if !extensions.Include(filepath.Ext(path)) &amp;&amp; !extensions.Include(filepath.Base(path)) </span><span class="cov9" title="10996">{
                 return true, nil
         }</span>
         <span class="cov6" title="230">return false, nil</span>
@@ -3893,7 +3893,7 @@ func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov
 
         <span class="cov6" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
 
-        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="29">{
+        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="31">{
                 if strings.Contains(strings.ToUpper(platform), strings.ToUpper(supPlatform)) </span><span class="cov5" title="5">{
                         libraryFilePath = filepath.FromSlash(libraryPath + "/" + supPlatform + "/" + LibraryFileName)
                         break</span>
