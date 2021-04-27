@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://www.kics.io/develop/roadmap/">
+        <link rel="canonical" href="http://www.kics.io/develop/dockerhub/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Roadmap - KICS</title>
+        <title>Dockerhub - KICS</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -155,12 +155,12 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Project <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active">Roadmap</a>
+    <a href="../roadmap/" class="dropdown-item">Roadmap</a>
 </li>
                                     
 <li>
@@ -195,17 +195,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../integrations_bitbucketpipelines/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../releases/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/Checkmarx/kics/edit/master/docs/roadmap.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/Checkmarx/kics/edit/master/docs/dockerhub.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -225,12 +215,22 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="2"><a href="#kics_roadmap" class="nav-link">KICS Roadmap</a>
+            <li class="nav-item" data-level="2"><a href="#documentation" class="nav-link">Documentation</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             
-            <li class="nav-item" data-level="2"><a href="#closed_milestones" class="nav-link">Closed Milestones</a>
+            <li class="nav-item" data-level="2"><a href="#git_repo" class="nav-link">Git Repo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#command" class="nav-link">Command</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#cli_options" class="nav-link">CLI Options</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -239,242 +239,64 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h2 id="kics_roadmap">KICS Roadmap<a class="headerlink" href="#kics_roadmap" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left">Status</th>
-<th align="left">Milestone</th>
-<th align="left">ETA</th>
-<th align="left">Target Release</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Not-Started</td>
-<td align="left"><strong>Milestone 8</strong></td>
-<td align="left">Jun 2021</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Google Deployment Manager support</td>
-<td align="left"></td>
-<td align="left">TBA</td>
-</tr>
-<tr>
-<td align="left">Not-Started</td>
-<td align="left"><strong>Milestone 7</strong></td>
-<td align="left">May 2021</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Azure Resource Manager support</td>
-<td align="left"></td>
-<td align="left">TBA</td>
-</tr>
-<tr>
-<td align="left">In-Progress</td>
-<td align="left"><strong>Milestone 6</strong></td>
-<td align="left">Apr 2021</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">In-Progress</td>
-<td align="left">Terraform - Parameters files support</td>
-<td align="left"></td>
-<td align="left">TBA</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Schemas support OpenAPI</td>
-<td align="left"></td>
-<td align="left">TBA</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Schemas support Swagger</td>
-<td align="left"></td>
-<td align="left">TBA</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Distribution platforms: Homebrew, Chocolatey</td>
-<td align="left"></td>
-<td align="left">TBA</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<p><br/></p>
-<h2 id="closed_milestones">Closed Milestones<a class="headerlink" href="#closed_milestones" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left">Status</th>
-<th align="left">Milestone</th>
-<th align="left">ETA</th>
-<th align="left">Release</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Completed</td>
-<td align="left"><strong>Milestone 5</strong></td>
-<td align="left">Mar 2021</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Helm support</td>
-<td align="left"></td>
-<td align="left">v1.2.1</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Reporting - add HTML format</td>
-<td align="left"></td>
-<td align="left">v1.2.1</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Documentation - Queries catalog</td>
-<td align="left"></td>
-<td align="left">v1.2.0</td>
-</tr>
-<tr>
-<td align="left">Completed</td>
-<td align="left"><strong>Milestone 4</strong></td>
-<td align="left">Feb 2021</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Reporting - add SARIF format</td>
-<td align="left"></td>
-<td align="left">v1.2.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Improved CLI outputs (progess, coloring, logo)</td>
-<td align="left"></td>
-<td align="left">v1.2.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Engineering and performance improvements</td>
-<td align="left"></td>
-<td align="left">1.2.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">CI/CD improved documentation</td>
-<td align="left"></td>
-<td align="left">v1.1.4</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Mac support</td>
-<td align="left"></td>
-<td align="left">v1.1.3</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Hard-coded secret keys detection</td>
-<td align="left"></td>
-<td align="left">v1.1.3</td>
-</tr>
-<tr>
-<td align="left">Completed</td>
-<td align="left"><strong>Milestone 3</strong></td>
-<td align="left">January 2021</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Adding more queries and extending coverage</td>
-<td align="left"></td>
-<td align="left">v1.1.1</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Adding more CI/CD integrations</td>
-<td align="left"></td>
-<td align="left">v1.1.1</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Engineering and performance improvements</td>
-<td align="left"></td>
-<td align="left">v1.1.1</td>
-</tr>
-<tr>
-<td align="left">Completed</td>
-<td align="left"><strong>Milestone 2</strong></td>
-<td align="left">December 2020</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Adding support for K8S</td>
-<td align="left"></td>
-<td align="left">v1.1.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Adding support for Docker</td>
-<td align="left"></td>
-<td align="left">v1.1.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Adding support for Ansible</td>
-<td align="left"></td>
-<td align="left">v1.1.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Adding support for AWS CloudFormation</td>
-<td align="left"></td>
-<td align="left">v1.1.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Designing official logo for KICS</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">Completed</td>
-<td align="left"><strong>Milestone 1</strong></td>
-<td align="left">November 2020</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">First version of KICS engine</td>
-<td align="left"></td>
-<td align="left">v1.0.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Terraform support, 50 queries</td>
-<td align="left"></td>
-<td align="left">v1.0.0</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Delivery: CLI &amp; Docker</td>
-<td align="left"></td>
-<td align="left">v1.0.0</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<p>Have an idea?
-Join the chat <a href="https://gitter.im/kics-io/community" target="_blank">on Gitter</a>.
-Or contact KICS core team at <a href="mailto:kics@checkmarx.com">kics@checkmarx.com</a></p></div>
+<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
+<p>Visit us</p>
+<p><a href="https://docs.kics.io">https://docs.kics.io</a></p>
+<h2 id="git_repo">Git Repo<a class="headerlink" href="#git_repo" title="Permanent link">&para;</a></h2>
+<p>https://github.com/Checkmarx/kics</p>
+<h2 id="command">Command<a class="headerlink" href="#command" title="Permanent link">&para;</a></h2>
+<p>To scan a directory/file on your host you have to mount it as a volume to the container and specify the path on the container filesystem with the -p KICS parameter (see the full list of CLI options below)</p>
+<pre><code class="language-sh">docker pull checkmarx/kics:latest
+</code></pre>
+<p>Scan a directory</p>
+<pre><code class="language-sh">docker run -v {path_to_host_folder_to_scan}:/path checkmarx/kics:latest -p &quot;/path&quot; -o &quot;/path/results.json&quot;
+</code></pre>
+<p>Scan a single file</p>
+<pre><code class="language-sh">docker run -v {path_to_host_folder}/{filename}.{extention}:/path/{filename}.{extention} checkmarx/kics:latest -p &quot;/path&quot; -o &quot;/path/results.json&quot;
+</code></pre>
+<h2 id="cli_options">CLI Options<a class="headerlink" href="#cli_options" title="Permanent link">&para;</a></h2>
+<p>Usage:</p>
+<pre><code class="language-txt">Available Commands:
+  generate-id Generates uuid for query
+  help        Help about any command
+  scan        Executes a scan analysis
+  version     Displays the current version
+
+Flags:
+      --config string                path to configuration file
+      --exclude-categories strings   exclude categories by providing its name
+                                     can be provided multiple times or as a comma separated string
+                                     example: 'Access control,Best practices'
+  -e, --exclude-paths strings        exclude paths from scan
+                                     supports glob and can be provided multiple times or as a quoted comma separated string
+                                     example: './shouldNotScan/*,somefile.txt'
+      --exclude-queries strings      exclude queries by providing the query ID
+                                     can be provided multiple times or as a comma separated string
+                                     example: 'e69890e6-fce5-461d-98ad-cb98318dfc96,4728cd65-a20c-49da-8b31-9c08b423e4db'
+  -x, --exclude-results strings      exclude results by providing the similarity ID of a result
+                                     can be provided multiple times or as a comma separated string
+                                     example: 'fec62a97d569662093dbb9739360942f...,31263s5696620s93dbb973d9360942fc2a...'
+  -h, --help                         help for scan
+      --minimal-ui                   simplified version of CLI output
+      --no-progress                  hides the progress bar
+  -o, --output-path string           directory path to store reports
+  -p, --path string                  path or directory path to scan
+  -d, --payload-path string          path to store internal representation JSON file
+      --preview-lines int            number of lines to be display in CLI results (min: 1, max: 30) (default 3)
+  -q, --queries-path string          path to directory with queries (default &quot;./assets/queries&quot;)
+      --report-formats strings       formats in which the results will be exported (json, sarif, html)
+  -t, --type strings                 case insensitive list of platform types to scan
+                                     (Ansible, CloudFormation, Dockerfile, Kubernetes, OpenAPI, Terraform)
+
+Global Flags:
+      --ci                  display only log messages to CLI output (mutually exclusive with silent)
+  -f, --log-format string   determines log format (pretty,json) (default &quot;pretty&quot;)
+      --log-level string    determines log level (TRACE,DEBUG,INFO,WARN,ERROR,FATAL) (default &quot;INFO&quot;)
+      --log-path string     path to log files, (defaults to ${PWD}/info.log)
+      --no-color            disable CLI color output
+  -s, --silent              silence stdout messages (mutually exclusive with verbose and ci)
+  -v, --verbose             write logs to stdout too (mutually exclusive with silent)
+</code></pre></div>
             </div>
         </div>
 
