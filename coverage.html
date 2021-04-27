@@ -1238,8 +1238,8 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="254">{
-                if val == true </span><span class="cov9" title="253">{
+        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="257">{
+                if val == true </span><span class="cov9" title="256">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
@@ -3691,12 +3691,12 @@ func (s *FileSystemSourceProvider) GetSources(ctx context.Context,
                 <span class="cov1" title="1">return sink(ctx, s.path, c)</span>
         }
 
-        <span class="cov2" title="3">err = filepath.Walk(s.path, func(path string, info os.FileInfo, err error) error </span><span class="cov9" title="14893">{
+        <span class="cov2" title="3">err = filepath.Walk(s.path, func(path string, info os.FileInfo, err error) error </span><span class="cov9" title="14919">{
                 if err != nil </span><span class="cov0" title="0">{
                         return err
                 }</span>
 
-                <span class="cov9" title="14893">if shouldSkip, skipFolder := s.checkConditions(info, extensions, path, resolved); shouldSkip </span><span class="cov9" title="14662">{
+                <span class="cov9" title="14919">if shouldSkip, skipFolder := s.checkConditions(info, extensions, path, resolved); shouldSkip </span><span class="cov9" title="14688">{
                         return skipFolder
                 }</span>
 
@@ -3744,24 +3744,24 @@ func closeFile(file *os.File, info os.FileInfo) <span class="cov6" title="230">{
 }
 
 func (s *FileSystemSourceProvider) checkConditions(info os.FileInfo, extensions model.Extensions,
-        path string, resolved bool) (bool, error) <span class="cov10" title="14896">{
-        if info.IsDir() </span><span class="cov8" title="3728">{
+        path string, resolved bool) (bool, error) <span class="cov10" title="14922">{
+        if info.IsDir() </span><span class="cov8" title="3732">{
                 if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov1" title="1">{
                         log.Info().Msgf("Directory ignored: %s", path)
                         return true, filepath.SkipDir
                 }</span>
-                <span class="cov8" title="3727">_, err := os.Stat(filepath.Join(path, "Chart.yaml"))
-                if err != nil || resolved </span><span class="cov8" title="3725">{
+                <span class="cov8" title="3731">_, err := os.Stat(filepath.Join(path, "Chart.yaml"))
+                if err != nil || resolved </span><span class="cov8" title="3729">{
                         return true, nil
                 }</span>
                 <span class="cov1" title="2">return false, nil</span>
         }
 
-        <span class="cov9" title="11168">if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov0" title="0">{
+        <span class="cov9" title="11190">if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov0" title="0">{
                 log.Info().Msgf("File ignored: %s", path)
                 return true, nil
         }</span>
-        <span class="cov9" title="11168">if !extensions.Include(filepath.Ext(path)) &amp;&amp; !extensions.Include(filepath.Base(path)) </span><span class="cov9" title="10938">{
+        <span class="cov9" title="11190">if !extensions.Include(filepath.Ext(path)) &amp;&amp; !extensions.Include(filepath.Base(path)) </span><span class="cov9" title="10960">{
                 return true, nil
         }</span>
         <span class="cov6" title="230">return false, nil</span>
@@ -3883,28 +3883,28 @@ func ListSupportedPlatforms() []string <span class="cov1" title="1">{
 }
 
 // GetPathToLibrary returns the libraries path for a given platform
-func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov5" title="7">{
+func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov6" title="7">{
         var libraryPath string
-        if strings.LastIndex(relativeBasePath, filepath.FromSlash("/queries")) &gt; -1 </span><span class="cov5" title="7">{
+        if strings.LastIndex(relativeBasePath, filepath.FromSlash("/queries")) &gt; -1 </span><span class="cov6" title="7">{
                 libraryPath = relativeBasePath[:strings.LastIndex(relativeBasePath, filepath.FromSlash("/queries"))] + filepath.FromSlash("/libraries")
         }</span> else<span class="cov0" title="0"> {
                 libraryPath = filepath.Join(relativeBasePath, LibrariesDefaultBasePath)
         }</span>
 
-        <span class="cov5" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
+        <span class="cov6" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
 
-        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="34">{
+        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="28">{
                 if strings.Contains(strings.ToUpper(platform), strings.ToUpper(supPlatform)) </span><span class="cov5" title="5">{
                         libraryFilePath = filepath.FromSlash(libraryPath + "/" + supPlatform + "/" + LibraryFileName)
                         break</span>
                 }
         }
 
-        <span class="cov5" title="7">return libraryFilePath</span>
+        <span class="cov6" title="7">return libraryFilePath</span>
 }
 
 // GetQueryLibrary returns the library.rego for the platform passed in the argument
-func (s *FilesystemSource) GetQueryLibrary(platform string) (string, error) <span class="cov5" title="7">{
+func (s *FilesystemSource) GetQueryLibrary(platform string) (string, error) <span class="cov6" title="7">{
         pathToLib := GetPathToLibrary(platform, s.Source)
 
         content, err := os.ReadFile(filepath.Clean(pathToLib))
@@ -3913,7 +3913,7 @@ func (s *FilesystemSource) GetQueryLibrary(platform string) (string, error) <spa
                         Msgf("Failed to get filesystem source rego library %s", pathToLib)
         }</span>
 
-        <span class="cov5" title="7">return string(content), err</span>
+        <span class="cov6" title="7">return string(content), err</span>
 }
 
 // CheckType checks if the queries have the type passed as an argument in '--type' flag to be loaded
@@ -3952,7 +3952,7 @@ func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.Qu
                                 return err
                         }</span>
 
-                        <span class="cov5" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov5" title="6">{
+                        <span class="cov6" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov5" title="6">{
                                 return nil
                         }</span>
 
@@ -4054,7 +4054,7 @@ func ReadMetadata(queryDir string) map[string]interface{} <span class="cov3" tit
 func getPlatform(queryPath string) string <span class="cov6" title="8">{
         if strings.Contains(queryPath, "common") </span><span class="cov1" title="1">{
                 return "common"
-        }</span> else<span class="cov5" title="7"> if strings.Contains(queryPath, "ansible") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov6" title="7"> if strings.Contains(queryPath, "ansible") </span><span class="cov1" title="1">{
                 return "ansible"
         }</span> else<span class="cov5" title="6"> if strings.Contains(queryPath, "cloudFormation") </span><span class="cov1" title="1">{
                 return "cloudFormation"
