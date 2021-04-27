@@ -1238,8 +1238,8 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="257">{
-                if val == true </span><span class="cov9" title="256">{
+        <span class="cov4" title="10">for key, val := range settingsMap </span><span class="cov9" title="237">{
+                if val == true </span><span class="cov9" title="236">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
@@ -2983,7 +2983,7 @@ func detectLastSingle(line int, dis map[int]int, idInfo map[int]interface{}, id 
         if idInfo == nil </span><span class="cov4" title="12">{
                 return true
         }</span>
-        <span class="cov3" title="6">for key, value := range dis </span><span class="cov4" title="9">{
+        <span class="cov3" title="6">for key, value := range dis </span><span class="cov4" title="8">{
                 if value == dis[line] &amp;&amp; key != line </span><span class="cov1" title="1">{
                         // check if we are only looking at original data equivalent to the vulnerability
                         if ok := idInfo[id].(map[int]int)[key]; ok != 0 </span><span class="cov1" title="1">{
@@ -3691,12 +3691,12 @@ func (s *FileSystemSourceProvider) GetSources(ctx context.Context,
                 <span class="cov1" title="1">return sink(ctx, s.path, c)</span>
         }
 
-        <span class="cov2" title="3">err = filepath.Walk(s.path, func(path string, info os.FileInfo, err error) error </span><span class="cov9" title="14919">{
+        <span class="cov2" title="3">err = filepath.Walk(s.path, func(path string, info os.FileInfo, err error) error </span><span class="cov9" title="14937">{
                 if err != nil </span><span class="cov0" title="0">{
                         return err
                 }</span>
 
-                <span class="cov9" title="14919">if shouldSkip, skipFolder := s.checkConditions(info, extensions, path, resolved); shouldSkip </span><span class="cov9" title="14688">{
+                <span class="cov9" title="14937">if shouldSkip, skipFolder := s.checkConditions(info, extensions, path, resolved); shouldSkip </span><span class="cov9" title="14706">{
                         return skipFolder
                 }</span>
 
@@ -3744,24 +3744,24 @@ func closeFile(file *os.File, info os.FileInfo) <span class="cov6" title="230">{
 }
 
 func (s *FileSystemSourceProvider) checkConditions(info os.FileInfo, extensions model.Extensions,
-        path string, resolved bool) (bool, error) <span class="cov10" title="14922">{
-        if info.IsDir() </span><span class="cov8" title="3732">{
+        path string, resolved bool) (bool, error) <span class="cov10" title="14940">{
+        if info.IsDir() </span><span class="cov8" title="3736">{
                 if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov1" title="1">{
                         log.Info().Msgf("Directory ignored: %s", path)
                         return true, filepath.SkipDir
                 }</span>
-                <span class="cov8" title="3731">_, err := os.Stat(filepath.Join(path, "Chart.yaml"))
-                if err != nil || resolved </span><span class="cov8" title="3729">{
+                <span class="cov8" title="3735">_, err := os.Stat(filepath.Join(path, "Chart.yaml"))
+                if err != nil || resolved </span><span class="cov8" title="3733">{
                         return true, nil
                 }</span>
                 <span class="cov1" title="2">return false, nil</span>
         }
 
-        <span class="cov9" title="11190">if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov0" title="0">{
+        <span class="cov9" title="11204">if f, ok := s.excludes[info.Name()]; ok &amp;&amp; containsFile(f, info) </span><span class="cov0" title="0">{
                 log.Info().Msgf("File ignored: %s", path)
                 return true, nil
         }</span>
-        <span class="cov9" title="11190">if !extensions.Include(filepath.Ext(path)) &amp;&amp; !extensions.Include(filepath.Base(path)) </span><span class="cov9" title="10960">{
+        <span class="cov9" title="11204">if !extensions.Include(filepath.Ext(path)) &amp;&amp; !extensions.Include(filepath.Base(path)) </span><span class="cov9" title="10974">{
                 return true, nil
         }</span>
         <span class="cov6" title="230">return false, nil</span>
