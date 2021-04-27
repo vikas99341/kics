@@ -244,6 +244,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            
+            <li class="nav-item" data-level="2"><a href="#flags_precedence" class="nav-link">Flags precedence</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
@@ -319,19 +324,19 @@ exclude-results: &quot;exclude results by providing a list of similarity IDs of 
 log-file: true
 log-level: INFO
 log-path: path to the log file
-silent: false
-no-color: false
 minimal-ui: false
+no-color: false
 no-progress: false
 output-path: &quot;directory path to store reports&quot;
 path: &quot;path to file or directory to scan&quot;
 payload-path: &quot;file path to store source internal representation in JSON format&quot;
 preview-lines: 3
+profiling: &quot;enables performance profiler that prints resource consumption metrics in the logs during the execution (CPU, MEM)&quot;
 queries-path: &quot;path to directory with queries (default ./assets/queries) (default './assets/queries')&quot;
 report-formats: &quot;formats in which the results will be exported (json, sarif, html)&quot;
+silent: false
 type: &quot;type of queries to use in the scan&quot;
 verbose: true
-profiling: &quot;enables performance profiler that prints resource consumption metrics in the logs during the execution (CPU, MEM)&quot;
 </code></pre>
 <h4 id="toml_format">TOML Format<a class="headerlink" href="#toml_format" title="Permanent link">&para;</a></h4>
 <pre><code class="language-TOML">exclude-categories = &quot;exclude categories by providing its name&quot;
@@ -341,7 +346,6 @@ exclude-results = &quot;exclude results by providing a list of similarity IDs of
 log-file = true
 log-level = &quot;INFO&quot;
 log-path = &quot;path to the log file&quot;
-silent = false
 minimal-ui = false
 no-color = false
 no-progress = false
@@ -349,11 +353,12 @@ output-path = &quot;directory path to store reports&quot;
 path = &quot;path to file or directory to scan&quot;
 payload-path = &quot;file path to store source internal representation in JSON format&quot;
 preview-lines = 3
+profiling = &quot;enables performance profiler that prints resource consumption metrics in the logs during the execution (CPU, MEM)&quot;
 queries-path = &quot;path to directory with queries (default ./assets/queries) (default './assets/queries')&quot;
 report-formats = &quot;formats in which the results will be exported (json, sarif, html)&quot;
+silent = false
 type = &quot;type of queries to use in the scan&quot;
 verbose = true
-profiling = &quot;enables performance profiler that prints resource consumption metrics in the logs during the execution (CPU, MEM)&quot;
 </code></pre>
 <h4 id="hcl_format">HCL Format<a class="headerlink" href="#hcl_format" title="Permanent link">&para;</a></h4>
 <pre><code class="language-hcl">&quot;exclude-categories&quot; = &quot;exclude categories by providing its name&quot;
@@ -363,7 +368,6 @@ profiling = &quot;enables performance profiler that prints resource consumption 
 &quot;log-file&quot; = true
 &quot;log-level&quot; = &quot;INFO&quot;
 &quot;log-path&quot; = &quot;path to the log file&quot;
-&quot;silent&quot; = false
 &quot;minimal-ui&quot; = false
 &quot;no-color&quot; = false
 &quot;no-progress&quot; = false
@@ -371,11 +375,12 @@ profiling = &quot;enables performance profiler that prints resource consumption 
 &quot;path&quot; = &quot;path to file or directory to scan&quot;
 &quot;payload-path&quot; = &quot;file path to store source internal representation in JSON format&quot;
 &quot;preview-lines&quot; = 3
+&quot;profiling&quot; = &quot;enables performance profiler that prints resource consumption metrics in the logs during the execution (CPU, MEM)&quot;
 &quot;queries-path&quot; = &quot;path to directory with queries (default ./assets/queries) (default './assets/queries')&quot;
 &quot;report-formats&quot; = &quot;formats in which the results will be exported (json, sarif, html)&quot;
+&quot;silent&quot; = false
 &quot;type&quot; = &quot;type of queries to use in the scan&quot;
 &quot;verbose&quot; = true
-&quot;profiling&quot; = &quot;enables performance profiler that prints resource consumption metrics in the logs during the execution (CPU, MEM)&quot;
 </code></pre>
 <hr />
 <h2 id="how_to_use">How to Use<a class="headerlink" href="#how_to_use" title="Permanent link">&para;</a></h2>
@@ -396,7 +401,20 @@ profiling = &quot;enables performance profiler that prints resource consumption 
 </ol>
 <pre><code>kics scan
 </code></pre>
-<p><strong>Note</strong>: CLI flags will have priority over the configuration file properties!</p></div>
+<p><strong>Note</strong>: If more than one path is given, KICS will warn that <code>--config</code> must be used to explicit decide.</p>
+<h4 id="environment_variables">Environment variables<a class="headerlink" href="#environment_variables" title="Permanent link">&para;</a></h4>
+<p>KICS also accepts environment variables to fill flags values. To use it you just need to have the flag with a <code>KICS_</code> prefix. For example:</p>
+<ul>
+<li>To use path flag as environment variable, you should have <code>KICS_PATH</code> on your environment;</li>
+<li>To use multiple names variables, like <code>--output-path</code>, you should use it with <code>KICS_</code> and each word separated by <code>_</code>, e.g.: <code>KICS_OUTPUT_PATH</code></li>
+</ul>
+<h2 id="flags_precedence">Flags precedence<a class="headerlink" href="#flags_precedence" title="Permanent link">&para;</a></h2>
+<p>KICS will use the following precende to fill flags:</p>
+<ul>
+<li>CLI flags</li>
+<li>Environment variables</li>
+<li>Configuration file</li>
+</ul></div>
             </div>
         </div>
 
