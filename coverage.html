@@ -3163,7 +3163,7 @@ func createVulnLines(startPos int, lines []string) []model.CodeLine <span class=
 func SelectLineWithMinimumDistance(distances map[int]int, startingFrom int) int <span class="cov5" title="7">{
         minDistance, lineOfMinDistance := constants.MaxInteger, startingFrom
         for line, distance := range distances </span><span class="cov6" title="10">{
-                if distance &lt; minDistance || distance == minDistance &amp;&amp; line &lt; lineOfMinDistance </span><span class="cov6" title="10">{
+                if distance &lt; minDistance || distance == minDistance &amp;&amp; line &lt; lineOfMinDistance </span><span class="cov5" title="9">{
                         minDistance = distance
                         lineOfMinDistance = line
                 }</span>
@@ -3911,7 +3911,7 @@ func NewFilesystemSource(source string, types []string) *FilesystemSource <span 
 func ListSupportedPlatforms() []string <span class="cov1" title="1">{
         keys := make([]string, len(supportedPlatforms))
         i := 0
-        for k := range supportedPlatforms </span><span class="cov6" title="6">{
+        for k := range supportedPlatforms </span><span class="cov5" title="6">{
                 keys[i] = k
                 i++
         }</span>
@@ -3930,7 +3930,7 @@ func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov
 
         <span class="cov6" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
 
-        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="25">{
+        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="26">{
                 if strings.Contains(strings.ToUpper(platform), strings.ToUpper(supPlatform)) </span><span class="cov5" title="5">{
                         libraryFilePath = filepath.FromSlash(libraryPath + "/" + supPlatform + "/" + LibraryFileName)
                         break</span>
@@ -3989,7 +3989,7 @@ func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.Qu
                                 return err
                         }</span>
 
-                        <span class="cov6" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov6" title="6">{
+                        <span class="cov6" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov5" title="6">{
                                 return nil
                         }</span>
 
@@ -4093,7 +4093,7 @@ func getPlatform(queryPath string) string <span class="cov6" title="8">{
                 return "common"
         }</span> else<span class="cov6" title="7"> if strings.Contains(queryPath, "ansible") </span><span class="cov1" title="1">{
                 return "ansible"
-        }</span> else<span class="cov6" title="6"> if strings.Contains(queryPath, "cloudFormation") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov5" title="6"> if strings.Contains(queryPath, "cloudFormation") </span><span class="cov1" title="1">{
                 return "cloudFormation"
         }</span> else<span class="cov5" title="5"> if strings.Contains(queryPath, "dockerfile") </span><span class="cov1" title="1">{
                 return "dockerfile"
