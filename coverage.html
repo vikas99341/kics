@@ -1227,8 +1227,8 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="11">for key, val := range settingsMap </span><span class="cov9" title="265">{
-                if val == true </span><span class="cov9" title="264">{
+        <span class="cov4" title="11">for key, val := range settingsMap </span><span class="cov9" title="261">{
+                if val == true </span><span class="cov9" title="260">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
@@ -2975,7 +2975,7 @@ func detectLastSingle(line int, dis map[int]int, idInfo map[int]interface{}, id 
         if idInfo == nil </span><span class="cov4" title="12">{
                 return true
         }</span>
-        <span class="cov3" title="6">for key, value := range dis </span><span class="cov4" title="8">{
+        <span class="cov3" title="6">for key, value := range dis </span><span class="cov4" title="9">{
                 if value == dis[line] &amp;&amp; key != line </span><span class="cov1" title="1">{
                         // check if we are only looking at original data equivalent to the vulnerability
                         if ok := idInfo[id].(map[int]int)[key]; ok != 0 </span><span class="cov1" title="1">{
@@ -3912,7 +3912,7 @@ func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov
 
         <span class="cov6" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
 
-        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="22">{
+        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="25">{
                 if strings.Contains(strings.ToUpper(platform), strings.ToUpper(supPlatform)) </span><span class="cov5" title="5">{
                         libraryFilePath = filepath.FromSlash(libraryPath + "/" + supPlatform + "/" + LibraryFileName)
                         break</span>
@@ -3946,27 +3946,27 @@ func (s *FilesystemSource) CheckType(queryPlatform interface{}) bool <span class
         <span class="cov1" title="1">return true</span>
 }
 
-func checkQueryExclude(id interface{}, excludeQueries []string) bool <span class="cov3" title="2">{
+func checkQueryExclude(id interface{}, excludeQueries []string) bool <span class="cov2" title="2">{
         queryMetadataKey, ok := id.(string)
         if !ok </span><span class="cov0" title="0">{
                 log.Warn().
                         Msgf("Can't cast query metadata key = %v", id)
                 return false
         }</span>
-        <span class="cov3" title="2">for _, excludedQuery := range excludeQueries </span><span class="cov0" title="0">{
+        <span class="cov2" title="2">for _, excludedQuery := range excludeQueries </span><span class="cov0" title="0">{
                 if queryMetadataKey == excludedQuery </span><span class="cov0" title="0">{
                         return true
                 }</span>
         }
-        <span class="cov3" title="2">return false</span>
+        <span class="cov2" title="2">return false</span>
 }
 
 // GetQueries walks a given filesource path returns all queries found in an array of
 // QueryMetadata struct
-func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.QueryMetadata, error) <span class="cov3" title="2">{
+func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.QueryMetadata, error) <span class="cov2" title="2">{
         queryDirs := make([]string, 0)
         err := filepath.Walk(s.Source,
-                func(p string, f os.FileInfo, err error) error </span><span class="cov7" title="8">{
+                func(p string, f os.FileInfo, err error) error </span><span class="cov6" title="8">{
                         if err != nil </span><span class="cov1" title="1">{
                                 return err
                         }</span>
@@ -3978,7 +3978,7 @@ func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.Qu
                         <span class="cov1" title="1">queryDirs = append(queryDirs, filepath.Dir(p))
                         return nil</span>
                 })
-        <span class="cov3" title="2">if err != nil </span><span class="cov1" title="1">{
+        <span class="cov2" title="2">if err != nil </span><span class="cov1" title="1">{
                 return nil, errors.Wrap(err, "failed to get query Source")
         }</span>
 
@@ -4051,14 +4051,14 @@ func ReadMetadata(queryDir string) map[string]interface{} <span class="cov4" tit
 
                 return nil</span>
         }
-        <span class="cov3" title="2">defer func() </span><span class="cov3" title="2">{
+        <span class="cov2" title="2">defer func() </span><span class="cov2" title="2">{
                 if err := f.Close(); err != nil </span><span class="cov0" title="0">{
                         log.Err(err).
                                 Msgf("Queries provider can't close file, file=%s", filepath.Clean(path.Join(queryDir, MetadataFileName)))
                 }</span>
         }()
 
-        <span class="cov3" title="2">var metadata map[string]interface{}
+        <span class="cov2" title="2">var metadata map[string]interface{}
         if err := json.NewDecoder(f).Decode(&amp;metadata); err != nil </span><span class="cov0" title="0">{
                 sentry.CaptureException(err)
                 log.Err(err).
@@ -4067,10 +4067,10 @@ func ReadMetadata(queryDir string) map[string]interface{} <span class="cov4" tit
                 return nil
         }</span>
 
-        <span class="cov3" title="2">return metadata</span>
+        <span class="cov2" title="2">return metadata</span>
 }
 
-func getPlatform(queryPath string) string <span class="cov7" title="8">{
+func getPlatform(queryPath string) string <span class="cov6" title="8">{
         if strings.Contains(queryPath, "common") </span><span class="cov1" title="1">{
                 return "common"
         }</span> else<span class="cov6" title="7"> if strings.Contains(queryPath, "ansible") </span><span class="cov1" title="1">{
@@ -4079,11 +4079,11 @@ func getPlatform(queryPath string) string <span class="cov7" title="8">{
                 return "cloudFormation"
         }</span> else<span class="cov5" title="5"> if strings.Contains(queryPath, "dockerfile") </span><span class="cov1" title="1">{
                 return "dockerfile"
-        }</span> else<span class="cov5" title="4"> if strings.Contains(queryPath, "k8s") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov4" title="4"> if strings.Contains(queryPath, "k8s") </span><span class="cov1" title="1">{
                 return "k8s"
         }</span> else<span class="cov4" title="3"> if strings.Contains(queryPath, "terraform") </span><span class="cov1" title="1">{
                 return "terraform"
-        }</span> else<span class="cov3" title="2"> if strings.Contains(queryPath, "openAPI") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov2" title="2"> if strings.Contains(queryPath, "openAPI") </span><span class="cov1" title="1">{
                 return "openAPI"
         }</span>
 
