@@ -61,7 +61,7 @@
 				
 				<option value="file2">github.com/Checkmarx/kics/internal/console/helpers/helpers.go (83.1%)</option>
 				
-				<option value="file3">github.com/Checkmarx/kics/internal/console/kics.go (87.2%)</option>
+				<option value="file3">github.com/Checkmarx/kics/internal/console/kics.go (83.8%)</option>
 				
 				<option value="file4">github.com/Checkmarx/kics/internal/console/list_platforms.go (100.0%)</option>
 				
@@ -179,7 +179,7 @@ import (
 )
 
 // NewGenerateIDCmd creates a new instance of the generate-id Command
-func NewGenerateIDCmd() *cobra.Command <span class="cov10" title="12">{
+func NewGenerateIDCmd() *cobra.Command <span class="cov10" title="13">{
         return &amp;cobra.Command{
                 Use:   "generate-id",
                 Short: "Generates uuid for query",
@@ -613,7 +613,6 @@ func (p *Printer) PrintBySev(content, sev string) string <span class="cov4" titl
 import (
         "context"
         "fmt"
-        "os"
         "strings"
         "time"
 
@@ -648,14 +647,14 @@ var (
 )
 
 // NewKICSCmd creates a new instance of the kics Command
-func NewKICSCmd() *cobra.Command <span class="cov10" title="12">{
+func NewKICSCmd() *cobra.Command <span class="cov10" title="13">{
         return &amp;cobra.Command{
                 Use:   "kics",
                 Short: constants.Fullname,
         }
 }</span>
 
-func initialize(rootCmd *cobra.Command) error <span class="cov10" title="12">{
+func initialize(rootCmd *cobra.Command) error <span class="cov10" title="13">{
         scanCmd := NewScanCmd()
         rootCmd.AddCommand(NewVersionCmd())
         rootCmd.AddCommand(NewGenerateIDCmd())
@@ -711,33 +710,16 @@ func initialize(rootCmd *cobra.Command) error <span class="cov10" title="12">{
                 return err
         }</span>
 
-        <span class="cov10" title="12">if err := viper.BindPFlags(rootCmd.PersistentFlags()); err != nil </span><span class="cov0" title="0">{
+        <span class="cov10" title="13">if err := viper.BindPFlags(rootCmd.PersistentFlags()); err != nil </span><span class="cov0" title="0">{
                 return err
         }</span>
 
-        <span class="cov10" title="12">initScanCmd(scanCmd)
-        if insertScanCmd(scanCmd) </span><span class="cov7" title="6">{
-                warning = append(warning, "WARNING: for future versions use 'kics scan'")
-                os.Args = append([]string{os.Args[0], "scan"}, os.Args[1:]...)
-        }</span>
-
-        <span class="cov10" title="12">return nil</span>
-}
-
-func insertScanCmd(scanCmd *cobra.Command) bool <span class="cov10" title="12">{
-        if len(os.Args) &gt; 1 &amp;&amp; os.Args[1][0] == '-' </span><span class="cov7" title="6">{
-                if os.Args[1][1] != '-' </span><span class="cov6" title="5">{
-                        flag := os.Args[1][1:]
-                        return scanCmd.Flags().ShorthandLookup(flag) != nil
-                }</span>
-                <span class="cov1" title="1">flag := os.Args[1][2:]
-                return scanCmd.Flag(flag) != nil</span>
-        }
-        <span class="cov7" title="6">return false</span>
+        <span class="cov10" title="13">initScanCmd(scanCmd)
+        return nil</span>
 }
 
 // Execute starts kics execution
-func Execute() error <span class="cov10" title="12">{
+func Execute() error <span class="cov10" title="13">{
         zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
         rootCmd := NewKICSCmd()
@@ -746,7 +728,7 @@ func Execute() error <span class="cov10" title="12">{
         if err != nil </span><span class="cov0" title="0">{
                 log.Err(err).Msg("Failed to initialize sentry")
         }</span>
-        <span class="cov10" title="12">defer sentry.Flush(timeMult * time.Second)
+        <span class="cov10" title="13">defer sentry.Flush(timeMult * time.Second)
 
         if err = initialize(rootCmd); err != nil </span><span class="cov0" title="0">{
                 sentry.CaptureException(err)
@@ -754,7 +736,7 @@ func Execute() error <span class="cov10" title="12">{
                 return err
         }</span>
 
-        <span class="cov10" title="12">if err := rootCmd.ExecuteContext(ctx); err != nil </span><span class="cov3" title="2">{
+        <span class="cov10" title="13">if err := rootCmd.ExecuteContext(ctx); err != nil </span><span class="cov4" title="3">{
                 sentry.CaptureException(err)
                 if !(strings.HasPrefix(err.Error(), "unknown shorthand flag") ||
                         strings.HasPrefix(err.Error(), "unknown flag") ||
@@ -762,7 +744,7 @@ func Execute() error <span class="cov10" title="12">{
                         strings.HasPrefix(err.Error(), "initialization error -")) </span><span class="cov1" title="1">{
                         log.Err(err).Msg("Failed to run application")
                 }</span>
-                <span class="cov3" title="2">return err</span>
+                <span class="cov4" title="3">return err</span>
         }
 
         <span class="cov9" title="10">return nil</span>
@@ -779,7 +761,7 @@ import (
 )
 
 // NewListPlatformsCmd creates a new instance of the list-platforms Command
-func NewListPlatformsCmd() *cobra.Command <span class="cov10" title="12">{
+func NewListPlatformsCmd() *cobra.Command <span class="cov10" title="13">{
         return &amp;cobra.Command{
                 Use:   "list-platforms",
                 Short: "List supported platforms",
@@ -1139,7 +1121,7 @@ const (
 )
 
 // NewScanCmd creates a new instance of the scan Command
-func NewScanCmd() *cobra.Command <span class="cov4" title="12">{
+func NewScanCmd() *cobra.Command <span class="cov5" title="13">{
         return &amp;cobra.Command{
                 Use:   scanCommandStr,
                 Short: "Executes a scan analysis",
@@ -1245,8 +1227,8 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) error <span class="cov4" titl
                         setBoundFlags(f.Name, val, cmd)
                 }</span>
         })
-        <span class="cov4" title="11">for key, val := range settingsMap </span><span class="cov9" title="284">{
-                if val == true </span><span class="cov9" title="283">{
+        <span class="cov4" title="11">for key, val := range settingsMap </span><span class="cov9" title="265">{
+                if val == true </span><span class="cov9" title="264">{
                         continue</span>
                 } else<span class="cov1" title="1"> {
                         return fmt.Errorf("unknown configuration key: '%s'\nShowing help for '%s' command", key, cmd.Name())
@@ -1273,7 +1255,7 @@ func setBoundFlags(flagName string, val interface{}, cmd *cobra.Command) <span c
         }
 }
 
-func initScanFlags(scanCmd *cobra.Command) <span class="cov4" title="12">{
+func initScanFlags(scanCmd *cobra.Command) <span class="cov5" title="13">{
         scanCmd.Flags().StringSliceVarP(&amp;path,
                 pathFlag,
                 pathFlagShorthand,
@@ -1376,7 +1358,7 @@ func initScanFlags(scanCmd *cobra.Command) <span class="cov4" title="12">{
         )
 }</span>
 
-func initScanCmd(scanCmd *cobra.Command) <span class="cov4" title="12">{
+func initScanCmd(scanCmd *cobra.Command) <span class="cov5" title="13">{
         initScanFlags(scanCmd)
 
         if err := scanCmd.MarkFlagRequired("path"); err != nil </span><span class="cov0" title="0">{
@@ -1473,7 +1455,7 @@ func createService(inspector *engine.Inspector,
 func scan(changedDefaultQueryPath bool) error <span class="cov4" title="8">{
         log.Debug().Msg("console.scan()")
 
-        for _, warn := range warning </span><span class="cov6" title="31">{
+        for _, warn := range warning </span><span class="cov2" title="3">{
                 log.Warn().Msgf(warn)
         }</span>
 
@@ -1636,7 +1618,7 @@ import (
 )
 
 // NewVersionCmd creates a new instance of the version Command
-func NewVersionCmd() *cobra.Command <span class="cov10" title="12">{
+func NewVersionCmd() *cobra.Command <span class="cov10" title="13">{
         return &amp;cobra.Command{
                 Use:   "version",
                 Short: "Displays the current version",
@@ -2993,7 +2975,7 @@ func detectLastSingle(line int, dis map[int]int, idInfo map[int]interface{}, id 
         if idInfo == nil </span><span class="cov4" title="12">{
                 return true
         }</span>
-        <span class="cov3" title="6">for key, value := range dis </span><span class="cov4" title="9">{
+        <span class="cov3" title="6">for key, value := range dis </span><span class="cov4" title="8">{
                 if value == dis[line] &amp;&amp; key != line </span><span class="cov1" title="1">{
                         // check if we are only looking at original data equivalent to the vulnerability
                         if ok := idInfo[id].(map[int]int)[key]; ok != 0 </span><span class="cov1" title="1">{
@@ -3911,7 +3893,7 @@ func NewFilesystemSource(source string, types []string) *FilesystemSource <span 
 func ListSupportedPlatforms() []string <span class="cov1" title="1">{
         keys := make([]string, len(supportedPlatforms))
         i := 0
-        for k := range supportedPlatforms </span><span class="cov5" title="6">{
+        for k := range supportedPlatforms </span><span class="cov6" title="6">{
                 keys[i] = k
                 i++
         }</span>
@@ -3930,7 +3912,7 @@ func GetPathToLibrary(platform, relativeBasePath string) string <span class="cov
 
         <span class="cov6" title="7">libraryFilePath := filepath.FromSlash(libraryPath + "/common/" + LibraryFileName)
 
-        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="26">{
+        for _, supPlatform := range supportedPlatforms </span><span class="cov10" title="22">{
                 if strings.Contains(strings.ToUpper(platform), strings.ToUpper(supPlatform)) </span><span class="cov5" title="5">{
                         libraryFilePath = filepath.FromSlash(libraryPath + "/" + supPlatform + "/" + LibraryFileName)
                         break</span>
@@ -3964,39 +3946,39 @@ func (s *FilesystemSource) CheckType(queryPlatform interface{}) bool <span class
         <span class="cov1" title="1">return true</span>
 }
 
-func checkQueryExclude(id interface{}, excludeQueries []string) bool <span class="cov2" title="2">{
+func checkQueryExclude(id interface{}, excludeQueries []string) bool <span class="cov3" title="2">{
         queryMetadataKey, ok := id.(string)
         if !ok </span><span class="cov0" title="0">{
                 log.Warn().
                         Msgf("Can't cast query metadata key = %v", id)
                 return false
         }</span>
-        <span class="cov2" title="2">for _, excludedQuery := range excludeQueries </span><span class="cov0" title="0">{
+        <span class="cov3" title="2">for _, excludedQuery := range excludeQueries </span><span class="cov0" title="0">{
                 if queryMetadataKey == excludedQuery </span><span class="cov0" title="0">{
                         return true
                 }</span>
         }
-        <span class="cov2" title="2">return false</span>
+        <span class="cov3" title="2">return false</span>
 }
 
 // GetQueries walks a given filesource path returns all queries found in an array of
 // QueryMetadata struct
-func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.QueryMetadata, error) <span class="cov2" title="2">{
+func (s *FilesystemSource) GetQueries(excludeQueries ExcludeQueries) ([]model.QueryMetadata, error) <span class="cov3" title="2">{
         queryDirs := make([]string, 0)
         err := filepath.Walk(s.Source,
-                func(p string, f os.FileInfo, err error) error </span><span class="cov6" title="8">{
+                func(p string, f os.FileInfo, err error) error </span><span class="cov7" title="8">{
                         if err != nil </span><span class="cov1" title="1">{
                                 return err
                         }</span>
 
-                        <span class="cov6" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov5" title="6">{
+                        <span class="cov6" title="7">if f.IsDir() || f.Name() != QueryFileName </span><span class="cov6" title="6">{
                                 return nil
                         }</span>
 
                         <span class="cov1" title="1">queryDirs = append(queryDirs, filepath.Dir(p))
                         return nil</span>
                 })
-        <span class="cov2" title="2">if err != nil </span><span class="cov1" title="1">{
+        <span class="cov3" title="2">if err != nil </span><span class="cov1" title="1">{
                 return nil, errors.Wrap(err, "failed to get query Source")
         }</span>
 
@@ -4069,14 +4051,14 @@ func ReadMetadata(queryDir string) map[string]interface{} <span class="cov4" tit
 
                 return nil</span>
         }
-        <span class="cov2" title="2">defer func() </span><span class="cov2" title="2">{
+        <span class="cov3" title="2">defer func() </span><span class="cov3" title="2">{
                 if err := f.Close(); err != nil </span><span class="cov0" title="0">{
                         log.Err(err).
                                 Msgf("Queries provider can't close file, file=%s", filepath.Clean(path.Join(queryDir, MetadataFileName)))
                 }</span>
         }()
 
-        <span class="cov2" title="2">var metadata map[string]interface{}
+        <span class="cov3" title="2">var metadata map[string]interface{}
         if err := json.NewDecoder(f).Decode(&amp;metadata); err != nil </span><span class="cov0" title="0">{
                 sentry.CaptureException(err)
                 log.Err(err).
@@ -4085,23 +4067,23 @@ func ReadMetadata(queryDir string) map[string]interface{} <span class="cov4" tit
                 return nil
         }</span>
 
-        <span class="cov2" title="2">return metadata</span>
+        <span class="cov3" title="2">return metadata</span>
 }
 
-func getPlatform(queryPath string) string <span class="cov6" title="8">{
+func getPlatform(queryPath string) string <span class="cov7" title="8">{
         if strings.Contains(queryPath, "common") </span><span class="cov1" title="1">{
                 return "common"
         }</span> else<span class="cov6" title="7"> if strings.Contains(queryPath, "ansible") </span><span class="cov1" title="1">{
                 return "ansible"
-        }</span> else<span class="cov5" title="6"> if strings.Contains(queryPath, "cloudFormation") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov6" title="6"> if strings.Contains(queryPath, "cloudFormation") </span><span class="cov1" title="1">{
                 return "cloudFormation"
         }</span> else<span class="cov5" title="5"> if strings.Contains(queryPath, "dockerfile") </span><span class="cov1" title="1">{
                 return "dockerfile"
-        }</span> else<span class="cov4" title="4"> if strings.Contains(queryPath, "k8s") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov5" title="4"> if strings.Contains(queryPath, "k8s") </span><span class="cov1" title="1">{
                 return "k8s"
         }</span> else<span class="cov4" title="3"> if strings.Contains(queryPath, "terraform") </span><span class="cov1" title="1">{
                 return "terraform"
-        }</span> else<span class="cov2" title="2"> if strings.Contains(queryPath, "openAPI") </span><span class="cov1" title="1">{
+        }</span> else<span class="cov3" title="2"> if strings.Contains(queryPath, "openAPI") </span><span class="cov1" title="1">{
                 return "openAPI"
         }</span>
 
